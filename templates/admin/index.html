@@ -2,7 +2,6 @@
 {% load i18n admin_static jet_dashboard_tags static %}
 
 {% block html %}{% get_dashboard 'index' as dashboard %}{{ block.super }}{% endblock %}
-<p>Test commit</p>
 {% block extrastyle %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />
