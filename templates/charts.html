@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Statistic Charts</title>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'fusioncharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fusioncharts.theme.fint.js' %}"></script>
+</head>
+<body>
+<!-- Fusion Charts will render here-->
+<div id="chart-1"></div>
+<!-- dumping JavaScript code here -->
+{{ output|safe }}
+</body>
+</html>
