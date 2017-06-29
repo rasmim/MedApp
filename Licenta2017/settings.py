@@ -39,7 +39,7 @@ MEDIA_URL = '/media/'
 
 INSTALLED_APPS = [
     # 'grappelli',
-    'jet.dashboard',
+    # 'jet.dashboard',
     'jet',
     'django.contrib.admin',
     'django.contrib.auth',
