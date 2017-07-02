@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'MedApp.apps.MedappConfig',
-    'django_twilio',
     'phonenumber_field',
     'django_extensions'
 ]

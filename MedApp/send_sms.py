@@ -9,7 +9,10 @@ def send_sms(no_to='', no_from='', body=''):
     message = client.messages.create(to=no_to, from_=no_from, body=body)
         # to="+40784348384", from_="+17603137403",; body="Dr. Livia you have a new appointment at ")
 
- # iwbmejloqhxlbcac ------MedApp ---Gmail Pw
+
+
+
+    # iwbmejloqhxlbcac ------MedApp ---Gmail Pw
 
 # tmedapp@gmail.com -------- Logitech123
 

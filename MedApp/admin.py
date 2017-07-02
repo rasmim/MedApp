@@ -26,41 +26,50 @@ class DoctorFilter(admin.SimpleListFilter):
             return queryset
 
 
-class AppointmentEdit(admin.ModelAdmin):
+class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('doctor', 'patient', 'time', 'created_by')
     exclude = ('created_by', )
+
+    created_by = 'testssds'
 
     list_filter = ['time', DoctorFilter]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'doctor':
             kwargs["queryset"] = CustomUser.objects.filter(groups__in=[1])
-        return super(AppointmentEdit, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        return super(AppointmentAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         obj.save()
 
     def get_queryset(self, request):
-        qs = super(AppointmentEdit, self).get_queryset(request)
+        qs = super(AppointmentAdmin, self).get_queryset(request)
         if request.user.groups.filter(name='Doctors').exists():
             return qs.filter(doctor=request.user)
         else:
             return qs
 
 
-class ConsultationEdit(admin.ModelAdmin):
+class ConsultationaAdmin(admin.ModelAdmin):
     list_display = ('doctor', 'patient', 'specialization')
 
+    def get_queryset(self, request):
+        qs = super(ConsultationaAdmin, self).get_queryset(request)
+        if request.user.groups.filter(name='Doctors').exists():
+            return qs.filter(doctor=request.user)
+        else:
+            return qs
 
-class ConsultationResultEdit(admin.ModelAdmin):
+
+class ConsultationResultAdmin(admin.ModelAdmin):
     list_display = ('patient','diagnostic','recipe','image_tag')
     actions = ['print_consultation']
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'diagnostic':
             specialization_id = Specialization.objects.get(doctor_id=request.user.id)
             kwargs["queryset"] = Diagnostic.objects.filter(specilization_id=specialization_id)
-        return super(ConsultationResultEdit, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        return super(ConsultationResultAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
         # def print_consultation(request, canvas=None):
         #     response = HttpResponse(content_type='application/pdf')
@@ -85,11 +94,12 @@ class ConsultationResultEdit(admin.ModelAdmin):
         #     response.write(pdf)
         #     return response
 
-class DiagnosticEdit(admin.ModelAdmin):
+
+class DiagnosticAdmin(admin.ModelAdmin):
     list_display = ('name', 'code')
 
     def get_queryset(self, request):
-        qs = super(DiagnosticEdit, self).get_queryset(request)
+        qs = super(DiagnosticAdmin, self).get_queryset(request)
         if request.user.groups.filter(name='Doctors').exists():
             specialization_id = Specialization.objects.get(doctor_id = request.user.id)
             return qs.filter( specilization_id= specialization_id)
@@ -97,23 +107,18 @@ class DiagnosticEdit(admin.ModelAdmin):
             return qs
 
 
-
-class PatientEdit(admin.ModelAdmin):
+class PatientAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name',)
     # list_filter = [DoctorFilter,]
     exclude = ['doctor']
     search_fields = ('first_name', 'last_name', 'cnp',)
 
 
-
-
-
-
-admin.site.register(Diagnostic, DiagnosticEdit)
-admin.site.register(ConsultationResult, ConsultationResultEdit)
-admin.site.register(Appointment, AppointmentEdit)
-admin.site.register(Consultation, ConsultationEdit)
-admin.site.register(Patient, PatientEdit)
+admin.site.register(Diagnostic, DiagnosticAdmin)
+admin.site.register(ConsultationResult, ConsultationResultAdmin)
+admin.site.register(Appointment, AppointmentAdmin)
+admin.site.register(Consultation, ConsultationaAdmin)
+admin.site.register(Patient, PatientAdmin)
 
 
 class UserCreationForm(forms.ModelForm):
@@ -155,9 +160,7 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 
-
-
-# admin.site.register(Specialization)
+admin.site.register(Specialization)
 
 # admin.site.register(Diagnostic)
 #

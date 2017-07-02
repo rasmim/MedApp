@@ -21,7 +21,7 @@ from django.contrib import admin
 from MedApp import views
 
 urlpatterns = [
-    # url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
+
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
                   # url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^medapp/', admin.site.urls),
